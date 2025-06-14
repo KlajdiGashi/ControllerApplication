@@ -41,3 +41,17 @@ After moving the files, go back to the main directory and delete the empty temp 
 cd ..
 rm -rf temp
 ```
+
+### 5. Install Composer again to check if there are any issues with the files
+
+```
+Composer install
+```
+
+### 6. Add your .env file + other configurations that are needed
+
+If composer install somehow still doesnt let you run the application try this:
+
+```
+npm i && npm build
+```
