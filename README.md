@@ -70,5 +70,5 @@ If composer install somehow still doesnt let you run the application try this:
 npm i && npm build
 ```
 
-### 9. After finishing your work do a pull request to main so that the person in charge can review all the changes youve done, just as a reminder to let us know you have finished the tasks
+## After finishing your work do a pull request to main so that the person in charge can review all the changes youve done.  Just as a reminder to let us know you have finished the tasks
 
