@@ -21,18 +21,18 @@ class UserController extends Controller
         $incomingFields['password'] = bcrypt($incomingFields['password']);
         $user = User::create($incomingFields);
         Auth::login($user);
-        return redirect('/');
+        return redirect('/login');
     }
         public function login(Request $request){
         $incomingFields = $request->validate([
             'loginemail' => ['required', 'email'],
-            'loginpassword' => ['required','min:4', 'max:10']
+            'loginpassword' => ['required','min:4', 'max:20']
 
         ]);
 
         if(Auth::attempt(['email' => $incomingFields['loginemail'], 'password' => $incomingFields['loginpassword']])){
             $request->session()->regenerate();
-            return redirect('/');
+            return redirect('/storeBlog');
         }
 
         return back()->withErrors([
