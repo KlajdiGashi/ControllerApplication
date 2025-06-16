@@ -1,24 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Welcome Page</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
+
 <body class="bg-gray-100 flex items-center justify-center min-h-screen">
 
-    <div class="bg-white shadow-lg rounded-xl p-8 w-full max-w-md text-gray-800">
+    <div class="bg-white shadow-lg rounded-xl p-8 w-full max-w-2xl text-gray-800">
 
         @if(auth()->check())
-            <h2 class="text-2xl font-semibold mb-4 text-green-600">You are logged in!</h2>
-            <div class="space-y-2">
-                <p><strong>Name:</strong> {{ auth()->user()->name }}</p>
-                <p><strong>Email:</strong> {{ auth()->user()->email }}</p>
-                <p><strong>Age:</strong> {{ auth()->user()->age }}</p>
-                <p><strong>Gender:</strong> {{ auth()->user()->gender }}</p>
-            </div>
+            <h2 class="text-3xl font-bold mb-6 text-green-700 flex items-center justify-between">
+                All Blogs
+                <a href="/blog-create" class="ml-4 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition">
+                    Create Blog
+                </a>
+            </h2>
 
-            <form action="/logout" method="POST" class="mt-6">
+            @if($blogs->isEmpty())
+                <p class="text-gray-500">No blogs found.</p>
+            @else
+                <div class="space-y-4">
+                    @foreach($blogs as $blog)
+                        <div class="p-4 border rounded-md hover:shadow-md transition bg-gray-50">
+                            <h3 class="text-xl font-semibold text-blue-700">{{ $blog->title }}</h3>
+                            <p class="text-gray-700 mt-1">{{ $blog->description }}</p>
+                            <p class="text-sm text-gray-500 mt-2">
+                                Posted by: <strong>{{ $blog->user->name }}</strong>
+                            </p>
+                        </div>
+                    @endforeach
+                </div>
+            @endif
+
+            <form action="/logout" method="POST" class="mt-8">
                 @csrf
                 <button type="submit" class="w-full bg-red-600 text-white py-2 rounded-md hover:bg-red-700 transition">
                     Logout
@@ -31,14 +48,16 @@
             <div class="space-y-3">
                 <form action="/login-page" method="GET">
                     @csrf
-                    <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition">
+                    <button type="submit"
+                        class="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition">
                         Login
                     </button>
                 </form>
 
                 <form action="/register-page" method="GET">
                     @csrf
-                    <button type="submit" class="w-full bg-green-600 text-white py-2 rounded-md hover:bg-green-700 transition">
+                    <button type="submit"
+                        class="w-full bg-green-600 text-white py-2 rounded-md hover:bg-green-700 transition">
                         Register
                     </button>
                 </form>
@@ -48,4 +67,5 @@
     </div>
 
 </body>
+
 </html>
