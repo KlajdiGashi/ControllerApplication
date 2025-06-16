@@ -13,6 +13,8 @@
             <h2>User Information</h2>
             <p><strong>Name:</strong> {{ Auth::user()->name }}</p>
             <p><strong>Email:</strong> {{ Auth::user()->email }}</p>
+            <p><strong>Age:</strong> {{ Auth::user()->age }}</p>
+            <p><strong>Gender:</strong> {{ Auth::user()->gender }}</p>
         </div>
      
             @csrf
