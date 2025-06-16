@@ -24,10 +24,11 @@ class RegisterAndLoginController extends Controller
       
         $registerFields['password'] = bcrypt($registerFields['password']);
         $user = User::create($registerFields);
-     
+         
+    
         
-      return redirect()->route('login',['success','Registered succesfully']);
-
+      return redirect()->route('login',['success','Registered succesfully'])->with('success','User Registered Successfully',);
+     
 }
 public function login(Request $request){
     $loginFields=$request->validate([
@@ -47,6 +48,7 @@ public function login(Request $request){
     }
 
     return redirect()->route('home',['success','Registered succesfully']);
+
 }
 
 
@@ -63,6 +65,6 @@ public function resetPassword(Request $request){
     $user->password = bcrypt($resetPasswordFields['newPassword']);
     $user->save();
 
-    return redirect()->route('login',['success','Registered succesfully']);
+    return redirect()->route('login',['success','Registered succesfully'])->with('successfully','Password has been reset successfully ');
 }
 }

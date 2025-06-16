@@ -12,9 +12,25 @@
     </div>
 @endif
 
+
     
     <form action="/login" method="POST">
+
         @csrf
+
+        @if(session('success'))
+    <div style="color: green; font-weight: bold;">
+        {{ session('success') }}
+    </div>
+    @endif
+
+ @if(session('successfully'))
+     <div style="color: green; font-weight: bold;">
+        {{ session('successfully') }}
+     </div>
+     @endif
+   
+
         <h2>Login Form</h2>
         <input type="text" name="email" placeholder="Enter your email">
         <br> <br>
@@ -25,6 +41,8 @@
 
         <br><br>
         <a href="http://127.0.0.1:8000">You don't have an account yet? Register now</a>
+
+           
     </form>
 </body>
 </html>
