@@ -28,4 +28,10 @@ Route::post('/logout', function () {
 Route::post('/login', [UserController::class, 'login']);
 Route::post('/register', [UserController::class, 'register']);
 Route::post('/create', [BlogController::class, 'store']);
+Route::delete('/blogs/{blog}', [BlogController::class, 'destroy'])->name('blogs.destroy');
+
+Route::get('/edit/{blog}', [BlogController::class, 'edit']);
+Route::put('/update/{blog}', [BlogController::class, 'update']);
+
+
 

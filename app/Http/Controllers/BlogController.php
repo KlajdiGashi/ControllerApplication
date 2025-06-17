@@ -10,12 +10,12 @@ class BlogController extends Controller
     public function index()
     {
         $blogs = Blog::with('user')->latest()->get();
-        return view('home', compact('blogs')); 
+        return view('home', compact('blogs'));
     }
 
     public function create()
     {
-    return view('blogpage'); 
+        return view('blogpage');
     }
 
     public function store(Request $request)
@@ -26,10 +26,48 @@ class BlogController extends Controller
         ]);
 
         $blog = new Blog($data);
-        $blog->user()->associate(auth()->user()); 
+        $blog->user()->associate(auth()->user());
         $blog->save();
 
         return redirect()->route('home')->with('success', 'Blog created successfully.');
 
     }
+    public function destroy(Blog $blog)
+    {
+        if ($blog->user_id !== auth()->id()) {
+            abort(403, 'Unauthorized action.');
+        }
+
+        $blog->delete();
+
+        return redirect()->route('home')->with('success', 'Blog deleted successfully.');
+    }
+
+    public function edit(Blog $blog)
+    {
+        if (auth()->id() !== $blog->user_id) {
+            abort(403);
+        }
+
+        return view('blogedit', compact('blog')); // use blogedit since it's not in a folder
+    }
+
+    public function update(Request $request, Blog $blog)
+    {
+        if (auth()->id() !== $blog->user_id) {
+            abort(403);
+        }
+
+        $data = $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'required|string',
+        ]);
+
+        $blog->update($data);
+
+        return redirect('/')->with('success', 'Blog updated successfully.');
+    }
+
+
+
 }

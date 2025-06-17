@@ -14,7 +14,8 @@
         @if(auth()->check())
             <h2 class="text-3xl font-bold mb-6 text-green-700 flex items-center justify-between">
                 All Blogs
-                <a href="/blog-create" class="ml-4 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition">
+                <a href="/blog-create"
+                    class="ml-4 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition">
                     Create Blog
                 </a>
             </h2>
@@ -27,11 +28,37 @@
                         <div class="p-4 border rounded-md hover:shadow-md transition bg-gray-50">
                             <h3 class="text-xl font-semibold text-blue-700">{{ $blog->title }}</h3>
                             <p class="text-gray-700 mt-1">{{ $blog->description }}</p>
-                            <p class="text-sm text-gray-500 mt-2">
-                                Posted by: <strong>{{ $blog->user->name }}</strong>
-                            </p>
+
+                            <div class="text-sm text-gray-500 mt-2 flex justify-between items-center">
+                                <span>
+                                    Posted by: <strong>{{ $blog->user->name }}</strong>
+                                </span>
+
+                                @if(auth()->id() === $blog->user_id)
+                                    <div class="flex space-x-2">
+                                        <a href="/edit/{{ $blog->id }}"
+                                            class="px-3 py-1 bg-green-600 text-white rounded hover:bg-green-700 transition">
+                                            Edit
+                                        </a>
+
+                                        <form action="{{ route('blogs.destroy', $blog->id) }}" method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit"
+                                                class="px-3 py-1 bg-red-600 text-white rounded hover:bg-red-700 transition">
+                                                Delete
+                                            </button>
+                                        </form>
+                                    </div>
+                                @endif
+
+                            </div>
                         </div>
                     @endforeach
+
+
+
+
                 </div>
             @endif
 
