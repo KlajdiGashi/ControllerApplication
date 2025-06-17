@@ -13,7 +13,8 @@
     <div class="bg-white shadow-md rounded-lg p-8 w-full max-w-md">
         <h2 class="text-2xl font-semibold mb-6 text-center text-gray-800">Edit Blog</h2>
 
-        <form action="/update/{{ $blog->id }}" method="POST" class="space-y-4">
+        <form action="/update/{{ $blog->id }}" method="POST" enctype="multipart/form-data" class="space-y-4">
+
             @csrf
             @method('PUT')
 
@@ -29,6 +30,17 @@
                 <textarea name="description" rows="4" placeholder="Blog Description"
                     class="mt-1 w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400">{{ old('description', $blog->description) }}</textarea>
             </div>
+            <div>
+                <label for="image" class="block text-sm font-medium text-gray-700">Image</label>
+                <input name="image" type="file"
+                    class="mt-1 w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400" />
+
+                @if ($blog->image)
+                    <p class="text-sm text-gray-600 mt-2">Current image:</p>
+                    <img src="{{ asset('storage/' . $blog->image) }}" class="mt-1 rounded w-full h-48 object-cover" />
+                @endif
+            </div>
+
 
             <button type="submit"
                 class="w-full bg-yellow-500 text-white py-2 rounded-md hover:bg-yellow-600 transition duration-200">

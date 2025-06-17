@@ -9,7 +9,8 @@ class Blog extends Model
 {
     protected $fillable = [
         'title',
-        'description'
+        'description',
+        'image'
     ];
 
     public function user(){

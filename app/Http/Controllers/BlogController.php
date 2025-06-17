@@ -19,19 +19,25 @@ class BlogController extends Controller
     }
 
     public function store(Request $request)
-    {
-        $data = $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'required|string',
-        ]);
+{
+    $data = $request->validate([
+        'title' => 'required|string|max:255',
+        'description' => 'required|string',
+        'image' => 'nullable|image|max:2048',
+    ]);
 
-        $blog = new Blog($data);
-        $blog->user()->associate(auth()->user());
-        $blog->save();
-
-        return redirect()->route('home')->with('success', 'Blog created successfully.');
-
+    if ($request->hasFile('image')) {
+        $data['image'] = $request->file('image')->store('blogs', 'public');
     }
+
+    $blog = new Blog($data);
+    $blog->user()->associate(auth()->user());
+    $blog->save();
+
+    return redirect()->route('home')->with('success', 'Blog created successfully.');
+}
+
+
     public function destroy(Blog $blog)
     {
         if ($blog->user_id !== auth()->id()) {
@@ -53,20 +59,23 @@ class BlogController extends Controller
     }
 
     public function update(Request $request, Blog $blog)
-    {
-        if (auth()->id() !== $blog->user_id) {
-            abort(403);
-        }
+{
+    $data = $request->validate([
+        'title' => 'required|string|max:255',
+        'description' => 'required|string',
+        'image' => 'nullable|image|max:2048',
+    ]);
 
-        $data = $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'required|string',
-        ]);
-
-        $blog->update($data);
-
-        return redirect('/')->with('success', 'Blog updated successfully.');
+    if ($request->hasFile('image')) {
+        $imagePath = $request->file('image')->store('blogs', 'public');
+        $data['image'] = $imagePath;
     }
+
+    $blog->update($data);
+
+    return redirect('/')->with('success', 'Blog updated successfully.');
+}
+
 
 
 

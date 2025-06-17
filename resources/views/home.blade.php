@@ -29,11 +29,22 @@
                             <h3 class="text-xl font-semibold text-blue-700">{{ $blog->title }}</h3>
                             <p class="text-gray-700 mt-1">{{ $blog->description }}</p>
 
+                           @if ($blog->image)
+    <div class="inline-block rounded-lg overflow-hidden border border-gray-300 mt-2">
+        <img 
+            src="{{ asset('storage/' . $blog->image) }}"
+            alt="Blog image"
+            class="object-cover max-w-full h-auto"
+        />
+    </div>
+@endif
+
+
+
                             <div class="text-sm text-gray-500 mt-2 flex justify-between items-center">
                                 <span>
                                     Posted by: <strong>{{ $blog->user->name }}</strong>
                                 </span>
-
                                 @if(auth()->id() === $blog->user_id)
                                     <div class="flex space-x-2">
                                         <a href="/edit/{{ $blog->id }}"
@@ -80,7 +91,6 @@
                         Login
                     </button>
                 </form>
-
                 <form action="/register-page" method="GET">
                     @csrf
                     <button type="submit"
@@ -90,7 +100,6 @@
                 </form>
             </div>
         @endif
-
     </div>
 
 </body>
